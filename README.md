@@ -32,6 +32,7 @@ Networking (OPNsense, DNS/DHCP), Windows Server admin (AD/GPO), Linux admin (SSH
 security (least privilege, rules), monitoring (alerts/dashboards), virtualization (VirtualBox).
 
 ## Documentation
+- [Network Topology](docs/architecture/network-topology.md)
 - [Network & IP Plan](docs/architecture/ip-plan.md)
 - [Firewall Rules](docs/architecture/firewall-rules.md)
 - [Active Directory Design](docs/architecture/ad-design.md)
