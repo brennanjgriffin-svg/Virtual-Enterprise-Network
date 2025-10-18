@@ -34,6 +34,7 @@ security (least privilege, rules), monitoring (alerts/dashboards), virtualizatio
 ## Documentation
 - [Network Topology](docs/architecture/network-topology.md)
 - [Network & IP Plan](docs/architecture/ip-plan.md)
+- [DNS & DHCP Configuration](docs/architecture/dns-dhcp.md)
 - [Firewall Rules](docs/architecture/firewall-rules.md)
 - [Active Directory Design](docs/architecture/ad-design.md)
 - [Servers & Services](docs/services/service-catalog.md)
