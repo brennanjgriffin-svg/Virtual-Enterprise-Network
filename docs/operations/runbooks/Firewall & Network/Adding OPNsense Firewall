@@ -1,1 +1,145 @@
+# Runbook: Adding OPNsense Firewall
 
+## Overview
+This runbook outlines how to install and configure **OPNsense** — an open-source firewall and routing platform — as a virtual machine inside **VirtualBox**.  
+OPNsense will serve as the core firewall, router, and DHCP/DNS forwarder for the Virtual Enterprise Network lab for intial setup until AD DC is configured.
+
+---
+
+## Prerequisites
+
+### Required Files
+- OPNsense ISO (latest stable version)  
+  Download from: [https://opnsense.org/download/] (https://opnsense.org/download/)
+  - **Architecture:** AMD64
+  - **Image Type:** DVD image (ISO)
+  - **Mirror:** Choose closest region
+
+### VirtualBox Environment
+- Sufficient host resources:
+  - **RAM:** 2 GB minimum (4 GB recommended)
+  - **Storage:** 20 GB virtual disk
+  - **CPU:** 2 vCPUs minimum
+- Administrator privileges on host
+
+---
+
+## Procedure
+
+### Step 1: Download OPNsense Firewall
+
+1. Navigate to [https://opnsense.org/download/]
+
+2. Download OPNsense:
+ - **System Architecture** amd
+ - **Image Type** DVD
+ - **Mirror Location** OPNsense
+
+3. Extract Files to Location
+
+---
+
+### Step 2: Create the Virtual Machine
+1. Open **VirtualBox → New**.
+
+2. Configure the VM:
+   - **VM Name:** `fw`
+   - **VM Folder:** C:\Users\[user]\VirtualBox VMs
+   - **ISO Image:** C:\Users\[user]\Downloads\OPNsense-25.7-dvd-amd64.iso
+   - **OS Edition:** [field empty]
+   - **OS:** BSD
+   - **OS Distribution:** FreeBDS
+   - **OS Version:** FreeBSD (64-bit)
+
+3. Set up unattended guest OS Installation
+   - **User Name:** vboxuser
+   - **Password:** [field empty]
+   - **Confirm Password:** [field empty]
+   - **Prodcut Key:** [default]
+   - **Hostname:** fw
+   - **Domain Name:** myguest.virtualbox.org
+   - Do not install Guest Additions
+
+4. Specify Virtual Hardware
+   - **Base Memory:** 4096 MB (or more if available).
+   - **Number of CPUs:** 2
+
+5. Specify Virtual Hard Disk
+   - Create New Virtual Hard Disk
+     - **Hard Disk File Location:** C:\Users\[user]\VirtualBox VMs\fw\fw.vdi
+     - **Hard Disk Size:** 20.00 GB
+   - Do Not Use an existing Virtual Hard Disk
+   - Do Not Create Virtual Machine Without a Virtual Hard Disk
+
+6. Click **Finish**.
+
+---
+
+### Step 3: Configure Network Adapters
+
+1. Open **Settings → Network**.
+
+2. Under **Adapter 1:**
+   - Check **Enable Network Adapter**.
+   - **Attached to:** Bridged Adapter
+   - **Name:** [default]
+   - **Adapter Type:** Intel PRO/1000 MT Desktop (82540EM) 
+   - **Promiscious Mode:** Deny
+   - **MAC Address:* [default given MAC]
+   - This will act as the **WAN interface**.
+
+3. Under **Adapter 2:**
+   - Check **Enable Network Adapter**.
+   - Attached to: **Internal Network**
+   - Name: `SERVERS VLAN`
+   - **Adapter Type:** Intel PRO/1000 MT Desktop (82540EM)
+   - **Promiscious Mode:** Deny
+   - **MAC Address:* [default given MAC]
+   - This will act as the **LAN interface** for internal servers.
+
+4. Under **Adapter 3:**
+   - Check **Enable Network Adapter**.
+   - Attached to: **Internal Network**
+   - Name: `USERS VLAN`
+   - **Adapter Type:** Intel PRO/1000 MT Desktop (82540EM)
+   - **Promiscious Mode:** Deny
+   - **MAC Address:* [default given MAC]
+   - This will act as the **LAN interface** for internal users.
+
+5. Under **Adapter 4:**
+   - Check **Enable Network Adapter**.
+   - Attached to: **Internal Network**
+   - Name: `DMZ VLAN`
+   - **Adapter Type:** Intel PRO/1000 MT Desktop (82540EM)
+   - **Promiscious Mode:** Deny
+   - **MAC Address:* [default given MAC]
+   - This will act as the **LAN interface** for Web DMZ.
+
+---
+
+### Step 4: Mount the OPNsense ISO
+
+1. Go to **Settings → Storage**.
+
+2. Under **Controller: IDE**, click the empty disk icon → **Choose a disk file**.
+
+3. Select the downloaded OPNsense `.iso`.
+
+4. Ensure it’s mounted before boot.
+
+---
+
+### Step 4: Install OPNsense
+
+1. Start the VM.
+
+2. Wait for installiation to complete
+
+3. At login menu enter the following default OPNsense credentials
+  - **login:** 'root'
+  - **password:** 'opnsense'
+
+---
+
+### Step 5: Verfify Instillation
+1. **Expected Outcome:** opnsense Menu
