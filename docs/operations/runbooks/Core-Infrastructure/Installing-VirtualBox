@@ -17,7 +17,7 @@ This runbook outlines the steps required to install **Oracle VM VirtualBox** on 
 ## Procedure
 
 ### Step 1: Download VirtualBox
-1. Go to ![https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads) ![screenshot](docs/images/operations/runbooks/Core-Infrastructure/Installing-VirtualBox/Screenshot%20(200).png)
+1. Go to ![https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads) ![screenshot](docs/images/operations/runbooks/Core-Infrastructure/Installing-VirtualBox/Screenshot (200).png)
 2. Choose the installer for your OS:
    - **Windows hosts:** `VirtualBox-x.x.x-Win.exe`  (Screenshot of mouse over download button)
 
