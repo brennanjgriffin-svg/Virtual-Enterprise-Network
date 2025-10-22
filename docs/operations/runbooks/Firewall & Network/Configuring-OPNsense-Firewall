@@ -1,0 +1,153 @@
+# Runbook: Configuring OPNsense Firewall
+
+## Overview
+This runbook outlines the initial configuration of the OPNsense firewall after installation in the Virtual Enterprise Network project.  
+It includes setting up interfaces, assigning static IPs, enabling VLANs, configuring DHCP, and setting up DNS forwarding and NAT.
+
+---
+
+## Prerequisites
+- OPNsense VM installed and booted
+- VirtualBox networks created:
+  - **WAN adapter:** NAT or Bridged
+  - **LAN adapter:** Internal Network (e.g. `SERVERS`)
+  - Optional: Additional adapters for DMZ, Workstations, etc.
+- Access to OPNsense web GUI (`https://<LAN_IP>:443`)
+- Network plan documented (e.g., `ip-plan.md`)
+
+---
+
+## Procedure
+
+### 1. Verify Network Interfaces
+1. Log into OPNsense console by (root).
+  -Enter '8' into main terminal
+2. Run `ifconfig` to list available adapters.
+3. Confirm expected interfaces appear 'eg. em0, em1, em2, em3'
+
+---
+
+### 2. Assign Interfaces
+1. From the console menu, select **Option 1 – Assign Interfaces**.
+2. Do not configure LAGGS (Link Aggregation Groups) now.
+  -'n' and Return
+3. Configure VLANS
+  -'y' and Return
+4.Assign:
+   - Skip Enter Parent Interface 
+     - Press Return
+   - **WAN:** Enter WAN Interface Name
+     - First adapter (e.g., `em0` for WAN)
+   - **LAN:** Enter LAN Interface Name
+     - Second adapter (e.g., `em1`for SERVERS)
+   - Optional: Enter optional interface 1 name
+     - Additional VLANs (e.g., `em2` for USERS)
+   - Optional: Enter optional interface 2 name
+     - Additional VLANs (e.g., `em3` for DMZ)
+     - Press Return to end assigning
+3. Confirm assignments are correct, then reboot if prompted.
+
+---
+
+### 3. Configure LAN IP
+1. From the console menu, select **Option 2 – Set Interface IP address**.
+2. Choose the **WAN** interface.
+3. When prompted:
+   - **Configure ipv4 address WAN interface:** **Yes**
+   - **Configure ipv6 address WAN interface:** **Yes**
+   - **Restore Web GUI access Defaults:** **NO**
+   - **Switch to HTTPS Access for Web GUI:** **Yes** (for web GUI)
+4. After completion, note the WAN IP
+
+---
+
+### 4. Access Web Interface
+1. Open browser on host or LAN VM.
+2. Go to `https://10.10.10.1` (adjust if different).
+3. Login:
+   - **Username:** `root`
+   - **Password:** `opnsense`
+4. Complete initial setup wizard.
+
+---
+
+### 5. Configure System Settings
+- **Hostname:** `opnsense-fw`
+- **Domain:** `lab.local`
+- **Primary DNS Server:** `127.0.0.1` or DC IP
+- **Timezone:** `America/Chicago`
+- **NTP:** Enable and sync with default servers
+
+---
+
+### 6. Configure Firewall & NAT
+1. Navigate to **Firewall > NAT > Outbound**.
+2. Set mode to **Hybrid Outbound NAT**.
+3. Add rule to allow LAN to WAN translation.
+4. Navigate to **Firewall > Rules > LAN**.
+5. Add “Allow all LAN to any” rule for initial testing.
+
+---
+
+### 7. Enable VLANs (Optional)
+If using VLAN segmentation:
+1. Go to **Interfaces > Other Types > VLAN**.
+2. Add VLANs:
+   - Servers: VLAN 10
+   - Workstations: VLAN 20
+   - DMZ: VLAN 30
+3. Assign each VLAN to its own interface and set static IPs:
+   - VLAN10: `10.10.10.1/24`
+   - VLAN20: `10.10.20.1/24`
+   - VLAN30: `10.10.30.1/24`
+4. Configure DHCP scopes per VLAN.
+
+---
+
+### 8. Configure DNS Forwarder / Resolver
+1. Go to **Services > Unbound DNS**.
+2. Enable **Unbound DNS Resolver**.
+3. Check **Register DHCP leases** and **Register static mappings**.
+4. Add upstream DNS (e.g., `1.1.1.1` or domain controller).
+
+---
+
+### 9. Configure System Logging and Backups
+1. Go to **System > Log Files > Settings**.
+2. Enable remote syslog (optional).
+3. Go to **System > Configuration > Backups**.
+4. Set up automatic configuration backups to OPNsense Cloud or manual export.
+
+---
+
+## Validation
+
+### Verify Connectivity
+- From LAN VM:
+  - `ping 10.10.10.1` → should succeed.
+  - `ping 8.8.8.8` → should succeed (internet access).
+  - `ping google.com` → should succeed (DNS resolution).
+
+### Verify DHCP
+- Confirm VMs in LAN VLAN receive IPs from the configured range.
+
+### Verify Firewall
+- In OPNsense, navigate to **Firewall > Log Files > Live View**.
+- Confirm traffic is being passed and NATed properly.
+
+---
+
+## Deliverables
+- `opnsense-config.md` (this document)
+- Screenshot of OPNsense dashboard showing interfaces
+- Screenshot of successful ping from LAN VM to internet
+- Screenshot of Unbound DNS settings
+- Exported OPNsense configuration file (`.xml`)
+
+---
+
+## Next Steps
+- Configure **Static Routes** (if multi-VLAN)
+- Add **Secondary DNS / DHCP (Windows DC)**
+- Integrate **Monitoring (Prometheus / Grafana)**
+- Create **Firewall Rules Documentation**
