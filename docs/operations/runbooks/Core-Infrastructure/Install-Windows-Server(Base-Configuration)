@@ -1,0 +1,72 @@
+# 🧱 Runbook: Install Windows Server (Base Configuration)
+
+**Objective:**  
+Download & Prepare a new Windows Server virtual machine for use as a Domain Controller or other infrastructure role by performing a clean installation, assigning a hostname, setting a static IP, and verifying connectivity to the firewall.
+
+---
+
+## 🧩 Prerequisites
+- VirtualBox or other hypervisor installed and running
+- Windows Server 2022 ISO available* 
+- OPNsense or other firewall/router configured with a LAN interface (e.g., `10.0.10.1`)
+- Network adapter attached to the **Servers VLAN**
+- Administrative credentials for Windows installation
+*Owned or 180 day Trial
+---
+
+## ⚙️ Procedure
+
+### 1. Download Windows Server .iso
+1. Navigate to [https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022]
+2. Donwload .iso
+  - 64 bit
+  - English
+
+### 2. Create the Virtual Machine
+
+1. Configure the VM:
+   - **VM Name:** `DC1`
+   - **VM Folder:** 'C:\Users\[user]\VirtualBox VMs'
+   - **ISO Image:** 'C:\Users\Brennan\Downloads\26100.1742.240906-0331.ge_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso'
+   - **OS Edition:** 'Windows Server 2025 Standard Evaluation (Desktop Experience) (10.0.26100.1742 / x64/ en-US)
+   - **OS:** 'Microsoft Windows'
+   - **OS Distribution:** 
+   - **OS Version:** Windows Server 2022 (64-bit)
+   - Proceed with Unattended Installation
+
+2. Set up Unattended Guest OS Installation
+   - **User Name:** DC1
+   - **Password:** [passowrd]
+   - **Confirm Password:** [confirm password]
+   - **Prodcut Key:** [default]
+   - **Hostname:** DC1
+   - **Domain Name:** myguest.virtualbox.org
+   - Do not install Guest Additions
+
+3. Specify Virtual Hardware
+   - **Base Memory:** 4096 MB (or more if available).
+   - **Number of CPUs:** 2
+
+4. Specify Virtual Hard Disk
+   - Create New Virtual Hard Disk
+     - **Hard Disk File Location:** 'C:\Users\Brennan\VirtualBox VMs\DC1\DC1.vdi'
+     - **Hard Disk Size:** 60.00 GB
+   - Do Not Use an existing Virtual Hard Disk
+   - Do Not Create Virtual Machine Without a Virtual Hard Disk
+
+5. Click **Finish**.
+
+6. Partition Disk
+  - Delete disk partition
+  - Choose empty disk partition and proceed
+
+7. Follow Installation
+
+
+---
+
+### 3. Set Computer Name
+Rename the computer to a meaningful hostname (e.g., `DC1`).
+
+```powershell
+Rename-Computer -NewName "DC1" -Restart
