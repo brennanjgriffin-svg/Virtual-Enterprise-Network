@@ -1,0 +1,61 @@
+# Runbook: Configuring Windows Connection
+
+## Overview
+This runbook outlines the initial configuration of the Windows Server after installation in the Virtual Enterprise Network project.  
+It includes assigning static ipv4 address, DNS server and backup, and enabling DHCP.
+
+## Prerequisites
+
+- OPNsense VM installed and booted
+- VirtualBox networks created:
+  - **WAN adapter:** NAT or Bridged
+  - **LAN adapter:** Internal Network (e.g. `SERVERS`)
+  - Optional: Additional adapters for DMZ, Workstations, etc.
+- Windows Server Installed
+- Network plan documented (e.g., `ip-plan.md`)
+
+---
+
+## Procedure
+
+### 1. Configure Network adapter
+
+1. In powered down state navigate to DC1 settings
+
+2. In Network settings 
+  - Enable network adapter
+  - **Attached to:** Interal Network
+  - **Name:** SERVERS VLAN
+  - Click okay
+
+3. Boot DC1 VM
+
+4. Log into Powershell and verify adapter
+  - Right click Windows icon and select 'Terminal (Admin)'
+  - Enter 'Get-NetAdapter'
+   - Verify adapter is running
+   - Note Adapter Name 'eg. Ethernet'
+
+
+5. Configure static ipv4 address.
+In Terminal, enter 'New-NetIPAddress -InterfaceAlias "[Noted adapter name 'eg. Ethernet']" -AddressFamily IPv4 -IPAddress "10.0.10.2" -PrefixLength 24 -DefaultGateway "10.0.10.1"
+
+6. Verify Connection to Firewall and Gateway
+   - In terminal 'ping 10.0.10.1' (Firewall)
+    - **Expected Result:** sucessful ping
+   - In terminal 'ping 8.8.8.8' (External ipv4 'eg. google.com'
+    - *Expected Result:** sucessful ping
+
+### 2. Configure DNS
+
+1. In Terminal, enter 'Set-DnsClientServerAddress -InterfaceIndex "Ethernet -ServerAddresses ("10.0.10.2","10.0.10.1")
+
+2. Verify DNS
+  -In terminal,'Get-DnsClientServerAddress'
+   - **Expected Result:** DNS servers (10.0.10.2, 10.0.10.1)
+  - Ping 'google.com'
+   - **Expected Result:** sucessful ping
+
+### 3. Enable DHCP
+
+1. In terminal, 'Set-NetIPInterface -InterfaceAlias "Ethernet" -Dhcp Enabled
