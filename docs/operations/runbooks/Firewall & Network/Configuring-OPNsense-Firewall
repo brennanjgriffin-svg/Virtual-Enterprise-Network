@@ -50,20 +50,63 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
 ---
 
 ### 3. Configure LAN IP
-1. From the console menu, select **Option 2 – Set Interface IP address**.
-2. Choose the **WAN** interface.
-3. When prompted:
+1. Set Interface 0 to WAN
+  - From the console menu, select **Option 2 – Set Interface IP address**.
+  - Choose the **WAN** interface. (eg. em0)
+  - When prompted:
    - **Configure ipv4 address WAN interface:** **Yes**
    - **Configure ipv6 address WAN interface:** **Yes**
    - **Restore Web GUI access Defaults:** **NO**
    - **Switch to HTTPS Access for Web GUI:** **Yes** (for web GUI)
-4. After completion, note the WAN IP
+  - After completion, note the WAN IP
+
+2. Set Interface 1 to LAN (eg. SERVERS)
+  - From the console menu, select **Option 2 – Set Interface IP address**.
+  - Choose the **LAN** interface. (eg. em1)
+  - When prompted:
+   - **Configure ipv4 address LAN interface via DHCP:** **No**
+   - **Enter the new LAN ipv4 address:** 10.0.10.1
+   - **Enter the new LAN ipv4 subnet bit count:** 24
+   - **Enter Upsream Gateway:** **no** (empty field)
+   - **Configure ipv6 address LAN interface via WAN tracking:** **yes**
+   - **Do you want to enable DHCP server on LAN:** **no**
+   - **Restore Web GUI access Defaults:** **NO**
+  - After completion, note the LAN IP
+
+3.  Set Interface 2 to LAN (eg. USERS)
+  - From the console menu, select **Option 2 – Set Interface IP address**.
+  - Choose the **LAN** interface. (eg. em1)
+  - When prompted:
+   - **Configure ipv4 address LAN interface via DHCP:** **No**
+   - **Enter the new LAN ipv4 address:** 10.0.20.1
+   - **Enter the new LAN ipv4 subnet bit count:** 24
+   - **Enter Upsream Gateway:** **no** (empty field)
+   - **Configure ipv6 address LAN interface via WAN tracking:** **yes**
+   - **Do you want to enable DHCP server on LAN:** **no**
+   - **Restore Web GUI access Defaults:** **NO**
+  - After completion, note the OPT1 IP
+
+4.  Set Interface 3 to LAN (eg. DMZ)
+  - From the console menu, select **Option 2 – Set Interface IP address**.
+  - Choose the **LAN** interface. (eg. em1)
+  - When prompted:
+   - **Configure ipv4 address LAN interface via DHCP:** **No**
+   - **Enter the new LAN ipv4 address:** 10.0.30.1
+   - **Enter the new LAN ipv4 subnet bit count:** 24
+   - **Enter Upsream Gateway:** **no** (empty field)
+   - **Configure ipv6 address LAN interface via WAN tracking:** **yes**
+   - **Do you want to enable DHCP server on LAN:** **no**
+   - **Restore Web GUI access Defaults:** **NO**
+  - After completion, note the OPT2 IP
+
+5. Verify Connections Via ping
+ -From the console menu, select **Option 8 – Shell**.
 
 ---
 
 ### 4. Access Web Interface
 1. Open browser on host or LAN VM.
-2. Go to `https://10.10.10.1` (adjust if different).
+2. Go to `https://10.0.10.1` (adjust if different).
 3. Login:
    - **Username:** `root`
    - **Password:** `opnsense`
