@@ -1,0 +1,81 @@
+#  Runbook: Promote Windows Server to Domain Controller (AD DS)
+
+**Objective:**  
+Promote an installed Windows Server 2022 system to a Domain Controller (DC) and create a new Active Directory forest for the lab environment (`lab.local`). This will also install the DNS service required for domain name resolution.
+
+---
+
+##  Prerequisites
+- Windows Server 2022 VM installed and configured with:
+  - Static IP (e.g., 10.0.10.10)
+  - Hostname (e.g., DC1)
+  - Network connectivity to OPNsense firewall
+- Administrative access to the Windows Server
+- Internet access for updates (optional but recommended)
+- System time synchronized with network
+
+---
+
+##  Procedure
+
+### 1. Install AD DS Role
+
+1. Open PowerShell **as Administrator**
+
+2. run 'Install-WindowsFeature AD-Domain-Services -IncludeManagementTools'
+
+### 2. Promote Server to Domain Controller (New Forest)
+
+1. Install-ADDSForest 
+ -Run:
+  -'DomainName "lab.local" `
+  -'DomainNetbiosName "LAB" `
+  -'SafeModeAdministratorPassword (Read-Host -AsSecureString)'
+  -'InstallDNS:$true' `
+  -'Force:$true'
+
+2. Enter Safe Mode Recovery Password
+  - ***RECORD PASSWORD, RELIABLY and SECURELY***
+
+3. Automatic System Reboot
+
+4. Login
+ - **Username:** 'LAB\Administrator'
+
+## 3. Verification
+
+1. Open PowerShell **as Administrator**
+
+2. Run
+ - 'Get-Service adws,kdc,netlogon,dns'
+  - **Expected Result:** All should display Running.
+ - 'dcdiag /v'
+  - **Expected Result:** Ensure all tests pass
+ - 'nslookup dc1.lab.local'
+  - **Expected Result:** Internal domain (dc1.lab.local) resolves to 10.0.10.10
+ - 'nslookup google.com'
+  - **Expected Result:** External domain (google.com) resolves through DNS forwarder (firewall).
+ - 'Get-ADForest'
+  - **Expected Result:**  Output Includes:
+    -RootDomain: lab.local
+    -Domains   : {lab.local}
+ - 'net share'
+  - **Expected Result:** SYSVOL and NETLOGON are listed.
+
+## 4. Rollback Procedure (If neccesary)
+
+1. Remove AD DS role and demote server:
+  - Run 'Uninstall-ADDSDomainController -DemoteOperationMasterRole -ForceRemoval -LocalAdministratorPassword (Read-Host -AsSecureString "Enter new local admin password")
+
+2. Reboot and log in as local Administrator.
+
+3. Review logs under C:\Windows\Debug\DCPromo.log.
+
+4. Retry promotion with corrected parameters.
+
+## 5. Related Documents
+
+-Install-Windows-Server.md
+-Configure-DNS-Service.md
+-Create-OUs-and-GPOs.md
+-Join-Clients-to-Domain.md
