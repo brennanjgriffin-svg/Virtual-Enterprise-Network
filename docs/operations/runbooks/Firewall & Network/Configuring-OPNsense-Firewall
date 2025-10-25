@@ -1,0 +1,105 @@
+## **Runbook 2 — OPNsense Network Configuration**
+
+# Runbook: OPNsense Network Configuration
+
+## Overview
+This runbook continues from the initial OPNsense setup and covers configuration of  
+system settings, NAT/firewall rules, DNS resolver, and VLANs.
+
+---
+
+## Prerequisites
+- OPNsense web GUI accessible
+- Initial WAN and LAN connection completed (see `Connecting-OPNsense-Firewall.md`)
+- Network plan defined (see `ip-plan.md`)
+
+---
+
+## Procedure
+
+### 1. Configure System Settings
+
+1. In Browser, Navigate to OPNsense Web GUI
+  - '10.0.10.1' in browser
+
+2. Login Using default credentials
+  - **Username:** 'root'
+  - **Password:** 'opnsense'
+2. Navigate to **System > Settings > General**.
+
+3. Set:
+   - **Hostname:** `opnsense-fw`
+   - **Domain:** `lab.local`
+   - **Primary DNS Server:** `127.0.0.1` or DC IP
+   - **Timezone:** `America/Chicago`
+   - **NTP:** Enable with default servers
+
+---
+
+### 2. Configure Firewall & NAT
+
+1. Go to **Firewall > NAT > Outbound**.
+
+2. Set **Mode:** Hybrid Outbound NAT.
+
+3. Add rule for LAN → WAN translation.
+
+4. Go to **Firewall > Rules > LAN**.
+
+5. Add “Allow all LAN to any” rule for testing.
+
+6. Apply changes.
+
+---
+
+### 3. Configure VLANs (Optional)
+
+1. Go to **Interfaces > Devices > VLAN**.
+
+2. Create VLANs:
+   - Servers: VLAN 10
+   - Workstations: VLAN 20
+   - DMZ: VLAN 30
+
+3. Assign VLAN interfaces and set static IPs:
+   - VLAN10: `10.10.10.1/24`
+   - VLAN20: `10.10.20.1/24`
+   - VLAN30: `10.10.30.1/24`
+
+4. Enable and configure DHCP scopes for each VLAN.
+
+---
+
+### 4. Configure DNS Resolver
+
+1. Navigate to **Services > Unbound DNS**.
+
+2. Enable **Unbound DNS Resolver**.
+
+3. Enable:
+   - **Register DHCP leases**
+   - **Register static mappings**
+
+4. Add upstream DNS servers:
+   - Public (e.g., `1.1.1.1`, `8.8.8.8`)
+   - or Internal DC IP if AD-integrated
+
+---
+
+### 5. Configure Logging and Backups
+
+1. Go to **System > Log Files > Settings**:
+   - Enable remote syslog (optional)
+
+2. Go to **System > Configuration > Backups**:
+   - Enable automatic backups or export manually
+
+---
+
+## Validation
+
+### Network Connectivity
+- From LAN VM:
+  ```bash
+  ping 8.8.8.8
+  ping google.com
