@@ -17,7 +17,7 @@ The Management Server provides a secure workstation for accessing and administer
 ## Prerequisites
 - VirtualBox installed and configured with internal networks.
 - OPNsense Firewall VM operational.
-- MGMT VLAN configured in OPNsense (`10.0.20.0/24`, gateway `10.0.20.1`).
+- 'MGMT' Internal Network configured in OPNsense (`10.0.20.0/24`, gateway `10.0.20.1`).
 - DHCP disabled on MGMT VLAN (use static IP for this server).
 
 ---
