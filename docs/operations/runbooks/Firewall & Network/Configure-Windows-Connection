@@ -9,8 +9,8 @@ It includes assigning static ipv4 address, DNS server and backup, and enabling D
 - OPNsense VM installed and booted
 - VirtualBox networks created:
   - **WAN adapter:** NAT or Bridged
-  - **LAN adapter:** Internal Network (e.g. `SERVERS`)
-  - Optional: Additional adapters for DMZ, Workstations, etc.
+  - **LAN adapter:** Internal Network (e.g. `INTERNAL`)
+  - Optional: Additional adapters for DMZ, MGMT, etc.
 - Windows Server Installed
 - Network plan documented (e.g., `ip-plan.md`)
 
@@ -25,7 +25,7 @@ It includes assigning static ipv4 address, DNS server and backup, and enabling D
 2. In Network settings 
   - Enable network adapter
   - **Attached to:** Interal Network
-  - **Name:** SERVERS VLAN
+  - **Name:** INTERNAL VLAN
   - Click okay
 
 3. Boot DC1 VM
