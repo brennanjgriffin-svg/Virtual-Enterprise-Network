@@ -9,7 +9,7 @@ Download & Prepare a new Windows Server virtual machine for use as a Domain Cont
 - VirtualBox or other hypervisor installed and running
 - Windows Server 2022 ISO available* 
 - OPNsense or other firewall/router configured with a LAN interface (e.g., `10.0.10.1`)
-- Network adapter attached to the **Servers VLAN**
+- Network adapter attached to the **INTERNAL VLAN**
 - Administrative credentials for Windows installation
 *Owned or 180 day Trial
 ---
