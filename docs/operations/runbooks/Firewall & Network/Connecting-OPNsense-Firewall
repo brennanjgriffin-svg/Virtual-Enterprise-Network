@@ -11,7 +11,7 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
 - VirtualBox networks created:
   - **WAN adapter:** NAT or Bridged
   - **LAN adapter:** Internal Network (e.g. `SERVERS`)
-  - Optional: Additional adapters for DMZ, Workstations, etc.
+  - Optional: Additional adapters for DMZ, Management, etc.
 - Access to OPNsense web GUI (`https://<LAN_IP>:443`)
 - Network plan documented (e.g., `ip-plan.md`)
 
@@ -57,13 +57,14 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
 
 ---
 
-### 3. Configure LAN IP
+### 3. Configure IP's
+
 1. Set Interface 0 to WAN
   - From the console menu, select **Option 2 – Set Interface IP address**.
   - Choose the **WAN** interface. (eg. em0)
   - When prompted:
-   - **Configure ipv4 address WAN interface:** **Yes**
-   - **Configure ipv6 address WAN interface:** **Yes**
+   - **Configure ipv4 address WAN interface via DHCP:** **Yes**
+   - **Configure ipv6 address WAN interface via DHCP:** **Yes**
    - **Restore Web GUI access Defaults:** **NO**
    - **Switch to HTTPS Access for Web GUI:** **Yes** (for web GUI)
   - After completion, note the WAN IP
