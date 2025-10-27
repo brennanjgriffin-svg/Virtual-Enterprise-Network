@@ -10,12 +10,13 @@ It includes assigning static ipv4 address, DNS server and backup, and enabling D
 - VirtualBox networks created:
   - **WAN adapter:** NAT or Bridged
   - **LAN adapter:** Internal Network (e.g. `INTERNAL`)
-  - Optional: Additional adapters for DMZ, MGMT, etc.
-- Windows Server Installed
+  - Optional: Additional adapters for DMZ, MGTM, etc.
 - Network plan documented (e.g., `ip-plan.md`)
 
 ---
-
+### Related Documents
+ -
+---
 ## Procedure
 
 ### 1. Configure Network adapter
@@ -25,7 +26,7 @@ It includes assigning static ipv4 address, DNS server and backup, and enabling D
 2. In Network settings 
   - Enable network adapter
   - **Attached to:** Interal Network
-  - **Name:** INTERNAL VLAN
+  - **Name:** INTERNAL
   - Click okay
 
 3. Boot DC1 VM
@@ -38,9 +39,12 @@ It includes assigning static ipv4 address, DNS server and backup, and enabling D
 
 
 5. Configure static ipv4 address.
-In Terminal, enter 'New-NetIPAddress -InterfaceAlias "[Noted adapter name 'eg. Ethernet']" -AddressFamily IPv4 -IPAddress "10.0.10.2" -PrefixLength 24 -DefaultGateway "10.0.10.1"
+  -In Terminal, run 'New-NetIPAddress -InterfaceAlias "[Noted adapter name 'eg. Ethernet']" -AddressFamily IPv4 -IPAddress "10.0.10.2" -PrefixLength 24 -DefaultGateway "10.0.10.1"
 
-6. Verify Connection to Firewall and Gateway
+6. Disable IPv6
+  -In Terminal, run 'Disable-NetAdapterBinding -Name "Ethernet" -ComponentID ms_tcpip6'
+
+7. Verify Connection to Firewall and Gateway
    - In terminal 'ping 10.0.10.1' (Firewall)
     - **Expected Result:** sucessful ping
    - In terminal 'ping 8.8.8.8' (External ipv4 'eg. google.com'
