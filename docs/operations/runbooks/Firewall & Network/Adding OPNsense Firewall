@@ -91,7 +91,7 @@ OPNsense will serve as the core firewall, router, and DHCP/DNS forwarder for the
 3. Under **Adapter 2:**
    - Check **Enable Network Adapter**.
    - Attached to: **Internal Network**
-   - Name: `SERVERS VLAN`
+   - Name: `INTERNAL VLAN`
    - **Adapter Type:** Intel PRO/1000 MT Desktop (82540EM)
    - **Promiscious Mode:** Deny
    - **MAC Address:* [default given MAC]
@@ -100,7 +100,7 @@ OPNsense will serve as the core firewall, router, and DHCP/DNS forwarder for the
 4. Under **Adapter 3:**
    - Check **Enable Network Adapter**.
    - Attached to: **Internal Network**
-   - Name: `USERS VLAN`
+   - Name: `MGMT VLAN`
    - **Adapter Type:** Intel PRO/1000 MT Desktop (82540EM)
    - **Promiscious Mode:** Deny
    - **MAC Address:* [default given MAC]
