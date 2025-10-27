@@ -68,7 +68,7 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
    - **Switch to HTTPS Access for Web GUI:** **Yes** (for web GUI)
   - After completion, note the WAN IP
 
-2. Set Interface 1 to LAN (eg. SERVERS)
+2. Set Interface 1 to LAN (eg. INTERNAL)
   - From the console menu, select **Option 2 – Set Interface IP address**.
   - Choose the **LAN** interface. (eg. em1)
   - When prompted:
@@ -81,7 +81,7 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
    - **Restore Web GUI access Defaults:** **NO**
   - After completion, note the LAN IP
 
-3.  Set Interface 2 to LAN (eg. USERS)
+3.  Set Interface 2 to LAN (eg. MGMT)
   - From the console menu, select **Option 2 – Set Interface IP address**.
   - Choose the **LAN** interface. (eg. em1)
   - When prompted:
