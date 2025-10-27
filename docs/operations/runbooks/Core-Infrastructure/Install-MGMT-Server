@@ -1,0 +1,57 @@
+# Runbook: Installing and Configuring Management Server (MGMT VLAN)
+
+## Overview
+This runbook details the installation and configuration of a **Management Server** VM on the **MGMT VLAN (10.0.20.0/24)**.  
+The Management Server provides a secure workstation for accessing and administering the **OPNsense firewall** and other core infrastructure services via web GUI or SSH.
+
+---
+
+## Objectives
+- Deploy a OS suitable for network management tasks.
+- Configure static IP addressing within the MGMT subnet.
+- Verify access to the OPNsense web interface (typically at `https://10.0.20.1`).
+- Harden the server for administrative use.
+
+---
+
+## Prerequisites
+- VirtualBox installed and configured with internal networks.
+- OPNsense Firewall VM operational.
+- MGMT VLAN configured in OPNsense (`10.0.20.0/24`, gateway `10.0.20.1`).
+- DHCP disabled on MGMT VLAN (use static IP for this server).
+
+---
+## Related Runbooks
+
+This Management Server will be built using the same base procedures outlined in the following runbooks:
+
+- [Installing Windows Server](./Installing-Windows-Server.md)
+- [Configuring Windows Connection](./Configuring-Windows-Connection.md)
+
+---
+>  **Important Notes**
+>
+> - This server is **not** part of the primary Server VLAN (10.10.10.0/24) used in those runbooks.  
+>   Instead, it belongs to the **Management VLAN (10.0.20.0/24)** and should be configured with:
+>   ```
+>   Hostname: MGMT-SERVER
+>   IP Address: 10.0.20.2
+>   Subnet: 255.255.255.0 (/24)
+>   Gateway: 10.0.20.1 (OPNsense MGMT interface)
+>   DNS: 10.0.20.1
+>   ```
+> - The purpose of this VM is **administrative**: it provides secure web GUI access to OPNsense and other infrastructure services.
+> - Do **not** join this VM to the domain unless you explicitly want to manage it through Active Directory policies.
+> - Ensure its network adapter is attached to the **MGMT internal network** in VirtualBox, *not* the Servers VLAN used previously.
+
+---
+
+## Procedure
+
+If you’ve already followed the above runbooks, you can reuse them here:
+
+1. Perform all steps from **Installing Windows Server** for OS setup and initial configuration.  
+2. Perform relevant steps from **Configuring Windows Connection** to assign a static IP — adjusting the network details as specified above.
+3. Skip any domain join or DNS server setup steps, as this server is a standalone management node.
+4. Proceed with the **Validation** and **OPNsense GUI Access** steps below.
+
