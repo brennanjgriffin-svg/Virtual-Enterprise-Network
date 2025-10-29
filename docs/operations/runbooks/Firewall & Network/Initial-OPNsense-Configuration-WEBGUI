@@ -38,6 +38,7 @@ This runbook continues from the initial OPNsense configuration through the Web G
    - **Primary DNS Server:** `127.0.0.1` or DC IP
    - **Timezone:** `America/Chicago`
    - **NTP:** Enable with default servers
+   - **Prefer IPv4 over IPv6:** Checked (prefer to use IPv4 even if IPv6 is available)
 
 6. Verify
 
