@@ -53,5 +53,22 @@ If you’ve already followed the above runbooks, you can reuse them here:
 1. Perform all steps from **Installing Windows Server** for OS setup and initial configuration.  
 2. Perform relevant steps from **Configuring Windows Connection** to assign a static IP — adjusting the network details as specified above.
 3. Skip any domain join or DNS server setup steps, as this server is a standalone management node.
-4. Proceed with the **Validation** and **OPNsense GUI Access** steps below.
-
+4. Proceed with the **Validation**  
+5. **OPNsense GUI Access** 
+ 1. At OPNsense console menu, enter shell by pressing '8' and run
+ 2. Run 'vi /conf/config.xml'
+ 3. To allow Managnement firewall rule, Find '<filter>'
+   - add '<rule>
+    <type>pass</type>
+    <interface>opt1</interface>
+    <ipprotocol>inet</ipprotocol>
+    <protocol>tcp</protocol>
+    <source>
+        <network>opt1</network>
+    </source>
+    <destination>
+        <any/>
+    </destination>
+    <descr>Allow MGMT temporary</descr>
+</rule>'
+ 4. Save configuration file
