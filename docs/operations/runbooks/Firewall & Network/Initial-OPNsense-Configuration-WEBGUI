@@ -1,0 +1,45 @@
+## **Initial-OPNsense-Configuration-WEBGUI**
+
+# Runbook: Initial OPNsense Configuration Web GUI
+
+## Overview
+This runbook continues from the initial OPNsense configuration through the Web Gui on Managment. Because access, to the interface is blocked by default on interfaces outside of LAN, this runbook shows how to temporarily disable firewall for access. Firewall Rules to allow pass can be added directly to configuration files in shell, via an editor (vi) or they can be added in web gui, which will be covered later.
+
+---
+
+## Prerequisites
+- OPNsense web GUI accessible
+- Initial WAN and LAN connection completed (see `Connecting-OPNsense-Firewall.md`)
+- Network plan defined (see `ip-plan.md`)
+
+---
+
+## Procedure
+
+###  Configure System Settings
+
+1. In OPNsense Console, temorarily disable firewall
+ 1. Run '8' to access OPNsense shell
+ 2. run 'pfctl -d'
+ 3 exit with 'exit'
+
+2. In Browser, Navigate to OPNsense Web GUI
+  - '10.0.10.1' in browser
+
+3. Login Using default credentials
+  - **Username:** 'root'
+  - **Password:** 'opnsense'
+
+4. Navigate to **System > Settings > General**.
+
+5. Set:
+   - **Hostname:** `opnsense-fw`
+   - **Domain:** `lab.local`
+   - **Primary DNS Server:** `127.0.0.1` or DC IP
+   - **Timezone:** `America/Chicago`
+   - **NTP:** Enable with default servers
+
+6. Verify
+
+7. Enable OPNsense Firewall via OPNsense Shell
+ - 'pfctl -e'
