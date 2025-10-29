@@ -1,0 +1,48 @@
+## **Runbook Initial-Configuring-OPNsense-Firewall**
+
+# Runbook: Configuring firewall in OPNsense for the first time.
+
+## Overview
+This runbook continues from the initial OPNsense firewall configuration to allow permanant Mangagement Access through MGMT.
+
+---
+
+## Prerequisites
+- OPNsense web GUI accessible
+- Initial WAN and LAN connection completed (see `Connecting-OPNsense-Firewall.md`)
+- Network plan defined (see `ip-plan.md`)
+
+---
+
+## Procedure
+###  Configure Firewall & NAT
+
+1. In OPNsense Console, temorarily disable firewall
+ 1. Run '8' to access OPNsense shell
+ 2. run 'pfctl -d'
+ 3 exit with 'exit'
+
+2. Navigate to **Firewall > NAT > Outbound**.
+
+3. Set **Mode:** Hybrid Outbound NAT.
+
+4. Add rule for LAN → WAN translation.
+
+5. Add Rule to allow all from MGMT to any for testing
+ 1. navigate to **Firewall > Rules > OPT1** (MGMT Interface)
+ 2. Add Rule to allow all traffic in from OPT1 net
+  - 
+
+6. Apply changes.
+
+7. Enable OPNsense firewall in OPNsense shell
+ - 'pfctl -e'
+
+---
+
+### Verify
+1. Verify Firewall Rule change
+ - Run 'Ping 10.0.20.1'
+ - **Expected Result:** Sucessfull ping.
+2. Reload OPNsense Web Gui via MGMT browser
+ - **Expected Result:** Access to OPNsense interface Web Gui.
