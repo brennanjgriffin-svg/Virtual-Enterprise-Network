@@ -1,0 +1,53 @@
+## **Runbook — Adding-&-Configuring-VLANS**
+
+# Runbook: Adding and Configuring VLANS
+
+## Overview
+This runbook continues from the initial creation of OPNsense VLANs for both Management (MGMT) and Internal Users (USERS) to both utulize the same OPNsense interface, while still being segmented on seperate VLANS for security.
+
+---
+
+## Prerequisites
+- OPNsense web GUI accessible
+- Initial WAN and LAN connection completed (see `Connecting-OPNsense-Firewall.md`)
+- Network plan defined (see `ip-plan.md`)
+
+
+---
+
+## Procedure
+
+### Configure VLANs
+
+1. Go to **Interfaces > Devices > VLAN**.
+
+2. Create VLANs:
+   1. SERVERS:
+    - **Device:** 'vlan0.11'
+    - **Parent:** 'em1'
+    - **VLAN Tag:** '11'
+    - **VLAN Priotrity:** 'Best Effort (0,default)'
+    - **Description:** 'Vlan for internal servers'
+  
+   2. USERS: 
+    - **Device:** 'vlan0.12'
+    - **Parent:** 'em1'
+    - **VLAN Tag:** '12'
+    - **VLAN Priotrity:** 'Best Effort (0,default)'
+    - **Description:** 'Vlan for internal users'
+
+
+4. Nagivate to **Interface > Assingments**
+
+5. Add VLAN interfaces 
+   - 'vlan0.11 Vlan for Internal servers'
+   - 'vlan0.12 Vlan for Internal servers'
+
+6. Configure new VLANS
+ 1. Navigate to **Interface > SERVERS**
+ 2. Enable and configure SERVERS VLAN interface
+  - static IPv4 '10.0.11.1'
+ 3. Navigate to **Interface > USERS**
+ 4. Enable and configure USERS VLAN interface
+  - static IPv4 '10.0.12.1'
+ 5. Apply Changes.
