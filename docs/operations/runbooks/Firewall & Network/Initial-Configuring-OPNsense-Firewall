@@ -22,20 +22,27 @@ This runbook continues from the initial OPNsense firewall configuration to allow
  2. run 'pfctl -d'
  3 exit with 'exit'
 
-2. Navigate to **Firewall > NAT > Outbound**.
+2. In Browser, Navigate to OPNsense Web GUI
+  - '10.0.10.1' in browser
 
-3. Set **Mode:** Hybrid Outbound NAT.
+3. Login Using default credentials
+  - **Username:** 'root'
+  - **Password:** 'opnsense'
 
-4. Add rule for LAN → WAN translation.
+4. Navigate to **Firewall > NAT > Outbound**.
 
-5. Add Rule to allow all from MGMT to any for testing
+5. Set **Mode:** Hybrid Outbound NAT.
+
+6. Add rule for LAN → WAN translation.
+
+7. Add Rule to allow all from MGMT to any for testing
  1. navigate to **Firewall > Rules > OPT1** (MGMT Interface)
  2. Add Rule to allow all traffic in from OPT1 net
   - 
 
-6. Apply changes.
+8. Apply changes.
 
-7. Enable OPNsense firewall in OPNsense shell
+9. Enable OPNsense firewall in OPNsense shell
  - 'pfctl -e'
 
 ---
