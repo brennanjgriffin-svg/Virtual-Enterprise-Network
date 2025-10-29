@@ -46,8 +46,8 @@ This runbook continues from the initial creation of OPNsense VLANs for both Mana
 6. Configure new VLANS
  1. Navigate to **Interface > SERVERS**
  2. Enable and configure SERVERS VLAN interface
-  - static IPv4 '10.0.11.1'
+  - static IPv4 '10.0.11.1/24'
  3. Navigate to **Interface > USERS**
  4. Enable and configure USERS VLAN interface
-  - static IPv4 '10.0.12.1'
+  - static IPv4 '10.0.12.1/24'
  5. Apply Changes.
