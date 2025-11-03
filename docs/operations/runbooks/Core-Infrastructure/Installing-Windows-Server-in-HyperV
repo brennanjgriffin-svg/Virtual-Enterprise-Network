@@ -1,0 +1,85 @@
+# Runbook: Install Windows Server in Hyper V
+
+**Objective:**  
+Download & Prepare a new Windows Server virtual machine for use as a Domain Controller or other infrastructure role by performing a clean installation, assigning a hostname, setting a static IP, and verifying connectivity to the firewall.
+
+---
+
+## Prerequisites
+- **Host OS:** Windows 10/11 Pro or Enterprise (with Hyper-V feature enabled)
+- **Hyper-V Switches Created:**
+  - `WAN_Switch`
+  - `MGMT_Switch`
+  - `INTERNAL_Switch`
+  - `GUEST_Switch`
+- **ISO Image:**  
+  - `Windows_Server_2022_EVAL.iso` (or appropriate version)
+- **Minimum Specs:**
+  - 2 vCPUs  
+  - 4 GB RAM  
+  - 40 GB virtual disk
+- Administrative credentials for Windows installation
+*Owned or 180 day Trial
+
+---
+
+##  Procedure
+
+1. Download Windows Server .iso
+  1. Navigate to [https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022]
+  2. Donwload .iso
+  - 64 bit
+  - English
+
+2. Launch Hyper-V Manager
+  1. Open **Hyper-V Manager** from the Start Menu.  
+  2. In the **Actions** pane, click **New → Virtual Machine**.
+
+
+
+3. Create the Virtual Machine
+  1. **Specify Name and Location**
+   - Name:  relevant role (e.g., 'MGMT', `DC1`, `DC2', 'FILE', etc)
+   - Optionally check **Store the virtual machine in a different location** if organizing project folders.
+
+  2. **Specify Generation**
+   - Choose **Generation 1** (UEFI boot).
+
+  3. **Assign Memory**
+   - Start with **4096 MB** (adjust later as needed).
+   - Optionally enable **Dynamic Memory** for lab optimization.
+
+  4. **Configure Networking**
+   - Connect to the appropriate **virtual switch** according to ip plan (e.g., `MGMT_Switch` if this will be your management server).
+
+  5. **Connect Virtual Hard Disk**
+   - Create a new VHDX (recommended size: 40–60 GB).
+   - Default location 'C:\ProgramData\Microsoft\Windows\Virtual Hard Disks\'
+
+  6. **Installation Options**
+   - Choose **Install an operating system from a bootable CD/DVD-ROM**.
+   - Select Image (.iso) Browse and select your Windows Server ISO.
+
+5. Install Windows Server
+  1. Start the VM and open **Connect**.  
+ 
+  2. Press any key when prompted to boot from the ISO.  
+  
+  3. Choose:
+   - Language: English (United States)
+   - Time and Currency Format: English (United States)
+   - Keyboard and Input Method: US
+
+  4. Select Operating System you want to install.
+  - Edition: **Windows Server 2022 Standard (Desktop Experience)**
+
+  
+  4. Accept license terms.
+
+  5. Choose **Custom: Install Windows only (advanced)**.
+
+  6. Select the unallocated drive and click **Next**.
+
+  7. Create Password for Administrator account when prompted.
+  
+  8. Choose Resolution preference
