@@ -23,16 +23,16 @@ This runbook continues from the initial creation of OPNsense VLANs for both Mana
 
 2. Create VLANs:
    1. SERVERS:
-    - **Device:** 'vlan0.11'
-    - **Parent:** 'em1'
-    - **VLAN Tag:** '11'
+    - **Device:** 'vlan0.21'
+    - **Parent:** 'hn2'
+    - **VLAN Tag:** '21'
     - **VLAN Priotrity:** 'Best Effort (0,default)'
     - **Description:** 'Vlan for internal servers'
   
    2. USERS: 
-    - **Device:** 'vlan0.12'
-    - **Parent:** 'em1'
-    - **VLAN Tag:** '12'
+    - **Device:** 'vlan0.22'
+    - **Parent:** 'hn2'
+    - **VLAN Tag:** '22'
     - **VLAN Priotrity:** 'Best Effort (0,default)'
     - **Description:** 'Vlan for internal users'
 
@@ -40,14 +40,14 @@ This runbook continues from the initial creation of OPNsense VLANs for both Mana
 4. Nagivate to **Interface > Assingments**
 
 5. Add VLAN interfaces 
-   - 'vlan0.11 Vlan for Internal servers'
-   - 'vlan0.12 Vlan for Internal servers'
+   - 'vlan0.21 Vlan for Internal servers'
+   - 'vlan0.22 Vlan for Internal users'
 
 6. Configure new VLANS
  1. Navigate to **Interface > SERVERS**
  2. Enable and configure SERVERS VLAN interface
-  - static IPv4 '10.0.11.1/24'
+  - static IPv4 '10.0.21.1/24'
  3. Navigate to **Interface > USERS**
  4. Enable and configure USERS VLAN interface
-  - static IPv4 '10.0.12.1/24'
+  - static IPv4 '10.0.22.1/24'
  5. Apply Changes.
