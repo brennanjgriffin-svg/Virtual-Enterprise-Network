@@ -97,5 +97,7 @@ OPNsense will serve as the core firewall, router, and DHCP/DNS forwarder for the
   - Open the unset Network Adapter Settings
    - Change **Virtual Switch:** to 'GUEST_Switch'
    - Apply 
- 6. 'OK'
- 7. Start And Connect to Install OPNsense
+  7. Open Secure Boot Settings
+   - Uncheck Secure Boot 
+ 8. 'OK'
+6. Start And Connect to Install OPNsense
