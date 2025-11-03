@@ -128,7 +128,7 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
 
 ## Validation
 
-1. From LAN VM, open Powershell as administrator
+1. From OPNsense Shell,
 
 2. Run:
   - `ping 10.0.10.11` → should succeed.
