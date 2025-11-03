@@ -1,0 +1,98 @@
+# Runbook: Creating Virtual Switches in Hyper-V
+
+## Overview
+This runbook details the process of creating four virtual switches in Hyper-V for the Virtual Enterprise Network project:
+
+- **WAN** – Provides internet access to the virtual firewall.
+- **MGMT** – Dedicated management network for accessing the firewall, servers, and infrastructure interfaces.
+- **INTERNAL** – Core internal network for servers, workstations, and domain operations.
+- **GUEST** – Isolated guest VLAN for untrusted or client devices.
+
+---
+
+## Prerequisites
+
+- Windows 11 Pro or higher with **Hyper-V feature enabled**  
+  ```powershell
+  dism.exe /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V
+
+---
+
+## Procedure
+1. Open Hyper-V
+
+2. Open Hyper-V Manager
+
+3. Create New Virtual Network Switch for WAN
+ 1. **What type of virtual switch do you want to create?:** 
+   - **External**
+   - Create Virtual Switch
+ 
+ 2. Virtual Switch Properties:
+   - **Name:** 'WAN_Switch'
+   - **Notes:** 'External internet switch for OPNsense WAN'
+ 
+ 3. Connection Type
+   - **External Network**
+   - Choose Network connection (eg. Host's Net Adapter)
+
+ 4. Apply
+
+4. Create New Virtual Network Switch for Management LAN (MGMT)
+ 1. **What type of virtual switch do you want to create?:** 
+   - **Internal**
+   - Create Virtual Switch
+
+ 2. Virtual Switch Properties:
+   - **Name:** 'MGMT_Switch'
+   - **Notes:** 'Management LAN for admin access'
+
+ 3. Connection Type
+   - **Internal Network**
+
+ 4. Apply
+
+5. Create New Virtual Network Switch for INTERNAL VLANS (INTERNAL_VLANS)
+ 1. **What type of virtual switch do you want to create?:** 
+   - **Internal**
+   - Create Virtual Switch
+
+ 2. Virtual Switch Properties:
+   - **Name:** 'INTERNAL_VLANS_Switch'
+   - **Notes:** 'Internal enterprise LAN for domain and production systems'
+
+ 3. Connection Type
+   - **Internal Network**
+
+ 4. Apply
+
+6. Create New Virtual Network Switch for DMZ LAN (DMZ)
+ 1. **What type of virtual switch do you want to create?:** 
+   - **Internal**
+   - Create Virtual Switch
+
+ 2. Virtual Switch Properties:
+   - **Name:** 'DMZ_Switch'
+   - **Notes:** 'DMZ LAN Switch for public facing servers'
+
+ 3. Connection Type
+   - **Internal Network**
+
+ 4. Apply
+
+7. Create New Virtual Network Switch for GUEST LAN (GUEST)
+ 1. **What type of virtual switch do you want to create?:** 
+   - **Internal**
+   - Create Virtual Switch
+
+ 2. Virtual Switch Properties:
+   - **Name:** 'GUEST_Switch'
+   - **Notes:** 'Guest LAN Switch for guest access to Internet'
+
+ 3. Connection Type
+   - **Internal Network**
+
+ 4. Apply
+
+6. Click OK
+
