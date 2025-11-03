@@ -3,7 +3,7 @@
 # Runbook: Configuring firewall in OPNsense for the first time.
 
 ## Overview
-This runbook continues from the initial OPNsense firewall configuration to allow permanant Mangagement Access through MGMT.
+This runbook continues from the initial OPNsense firewall configuration to allow permanant Mangagement Access through MGMT if not on same subnet as OPNsense 'LAN' Interface.
 
 ---
 
