@@ -18,21 +18,17 @@ This runbook continues from the initial OPNsense configuration through the Web G
 
 ###  Configure System Settings
 
-1. In OPNsense Console, temorarily disable firewall
- 1. Run '8' to access OPNsense shell
- 2. run 'pfctl -d'
- 3 exit with 'exit'
 
-2. In Browser, Navigate to OPNsense Web GUI
+1. In Browser, Navigate to OPNsense Web GUI
   - '10.0.10.1' in browser
 
-3. Login Using default credentials
+2. Login Using default credentials
   - **Username:** 'root'
   - **Password:** 'opnsense'
 
-4. Navigate to **System > Settings > General**.
+3. Navigate to **System > Settings > General**.
 
-5. Set:
+4. Set:
    - **Hostname:** `opnsense-fw`
    - **Domain:** `lab.local`
    - **Primary DNS Server:** `127.0.0.1` or DC IP
@@ -40,7 +36,4 @@ This runbook continues from the initial OPNsense configuration through the Web G
    - **NTP:** Enable with default servers
    - **Prefer IPv4 over IPv6:** Checked (prefer to use IPv4 even if IPv6 is available)
 
-6. Verify
-
-7. Enable OPNsense Firewall via OPNsense Shell
- - 'pfctl -e'
+5. Verify
