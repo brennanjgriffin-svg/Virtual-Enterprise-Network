@@ -8,10 +8,12 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
 
 ## Prerequisites
 - OPNsense VM installed and booted
-- VirtualBox networks created:
-  - **WAN adapter:** NAT or Bridged
-  - **LAN adapter:** Internal Network (e.g. `SERVERS`)
-  - Optional: Additional adapters for DMZ, Management, etc.
+- Hyper V networks created:
+  - `WAN_Switch`
+  - `MGMT_Switch`
+  - `INTERNAL_Switch`
+  - `GUEST_Switch`
+  - Optional: Additional adapters for other networks 
 - Access to OPNsense web GUI (`https://<LAN_IP>:443`)
 - Network plan documented (e.g., `ip-plan.md`)
 
