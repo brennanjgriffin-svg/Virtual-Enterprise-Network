@@ -1,0 +1,101 @@
+# Runbook: Creating OPNsense Machine
+
+## Overview
+This runbook outlines how to install a virtual machine running  **OPNsense**  — an open-source firewall and routing platform — as a virtual machine inside **Hyper V**.  
+OPNsense will serve as the core firewall, router, and DHCP/DNS forwarder for the Virtual Enterprise Network lab for intial setup until AD DC is configured.
+
+---
+
+## Prerequisites
+
+### Required Files
+
+- **Hyper-V** enabled on Windows 11 Pro or higher.
+
+- OPNsense ISO (latest stable version)  
+ - Download from: [https://opnsense.org/download/] (https://opnsense.org/download/)
+  - **Architecture:** AMD64
+  - **Image Type:** DVD image (ISO)
+  - **Mirror:** Choose closest region
+
+- Four virtual switches created:
+  - `WAN` (External)
+  - `MGMT` (Internal)
+  - `INTERNAL` (Internal)
+  - `GUEST` (Private or Internal)
+
+- Sufficient host resources:
+  - **RAM:** 2 GB minimum (4 GB recommended)
+  - **Storage:** 20 GB virtual disk
+  - **CPU:** 2 vCPUs minimum
+
+- Administrator privileges on host
+
+---
+
+## Procedure
+
+## Create a New Virtual Machine
+1. Open **Hyper-V Manager**.
+
+2. Click **New → Virtual Machine**.
+
+3. Follow the **New Virtual Machine Wizard**:
+   1. **Name:** `OPNsense-FW1`
+    - **Location:** `C:\HyperV\OPNsense` (or your project VM folder)
+    - Next
+   2. Specify Generation
+    - **Generation:** `Generation 2`
+    - Next
+   3. Assign Memory
+    - **Startup Memory:** `4096 MB` (Dynamic Memory enabled)
+    - Next
+   4 Configure Network 
+    - **Network:** Select **Not Connected** (network adapters will be added manually later)
+    - Next
+   5. Connect Virtual Hard Disk: 
+     - Create Virtual Hard Disk
+      - Name: `OPNsense-FW1.vhdx`  
+      - Location: `C:\HyperV\OPNsense\Virtual Hard Disks\`  
+      - Size: `20 GB`
+   6. Installation Options:**  
+     - **Install on Operating System from a bootable CD/DVD-ROM:**
+      - Select 'Image File (.iso)'
+      - Browse and choose the **OPNsense ISO** you downloaded. (eg. C:\User\[User]\Downloads\
+4. Click **Finish**.
+
+5. Open OPNsense-FW1 Settings by right clicking.
+ 1. Add WAN Network
+   - Open the unset Network Adapter Settings
+   - Change **Virtual Switch:** to 'WAN_Switch'
+   - Apply
+ 2. Add MGMT Network
+  - 'Add Hardware'
+  - **Network Adapter**
+  - 'Add'
+  - Open the unset Network Adapter Settings
+   - Change **Virtual Switch:** to 'MGMT_Switch'
+   - Apply 
+ 3. Add INTERNAL_VLANS Network
+  - 'Add Hardware'
+  - **Network Adapter**
+  - 'Add'
+  - Open the unset Network Adapter Settings
+   - Change **Virtual Switch:** to 'INTERNAL_VLANS_Switch'
+   - Apply 
+ 4. Add DMZ Network
+  - 'Add Hardware'
+  - **Network Adapter**
+  - 'Add'
+  - Open the unset Network Adapter Settings
+   - Change **Virtual Switch:** to 'DMZ_Switch'
+   - Apply 
+ 5. Add GUEST Network
+  - 'Add Hardware'
+  - **Network Adapter**
+  - 'Add'
+  - Open the unset Network Adapter Settings
+   - Change **Virtual Switch:** to 'GUEST_Switch'
+   - Apply 
+ 6. 'OK'
+ 7. Start And Connect to Install OPNsense
