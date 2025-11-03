@@ -19,18 +19,19 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
 
 ## Procedure
 
-### 1. Verify Network Interfaces
+### Verify Network Interfaces
 
 1. Log into OPNsense console by (root).
   -Enter '8' into main terminal
 
 2. Run `ifconfig` to list available adapters.
 
-3. Confirm expected interfaces appear 'eg. em0, em1, em2, em3'
+3. Confirm expected interfaces appear 'eg. hn0, hn1, hn2, hn3, hn4'
 
+4. Run 'exit'
 ---
 
-### 2. Assign Interfaces
+###  Assign Interfaces
 
 1. From the console menu, select **Option 1 – Assign Interfaces**.
 
@@ -38,22 +39,26 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
   -'n' and Return
 
 3. Configure VLANS
-  -'y' and Return
+  -'n' and Return
 
-4.Assign:
-   - Skip Enter Parent Interface 
+4. Assign:
+   1. Skip Enter Parent Interface 
      - Press Return
-   - **WAN:** Enter WAN Interface Name
-     - First adapter (e.g., `em0` for WAN)
-   - **LAN:** Enter LAN Interface Name
-     - Second adapter (e.g., `em1`for SERVERS)
-   - Optional: Enter optional interface 1 name
-     - Additional VLANs (e.g., `em2` for USERS)
-   - Optional: Enter optional interface 2 name
-     - Additional VLANs (e.g., `em3` for DMZ)
+   2. **WAN:** Enter WAN Interface Name
+     - First adapter (e.g., `hn0` for WAN)
+   3. **LAN:** Enter LAN Interface Name
+     - Second adapter (e.g., `hn1`for MGMT)
+   4. Optional: Enter optional interface 1 name
+     - Additional VLANs (e.g., `hn2` for INTERNAL_VLANS)
+   5. Optional: Enter optional interface 2 name
+     - Additional VLANs (e.g., `hn3` for DMZ)
+   6. Optional: Enter optional interface 3 name
+     - Additional VLANs (e.g., `hn4` for GUEST)
      - Press Return to end assigning
 
-3. Confirm assignments are correct, then reboot if prompted.
+3. Confirm assignments are correct
+
+4. Accept 'y'
 
 ---
 
@@ -61,7 +66,7 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
 
 1. Set Interface 0 to WAN
   - From the console menu, select **Option 2 – Set Interface IP address**.
-  - Choose the **WAN** interface. (eg. em0)
+  - Choose the **WAN** interface. (eg. hn0)
   - When prompted:
    - **Configure ipv4 address WAN interface via DHCP:** **Yes**
    - **Configure ipv6 address WAN interface via DHCP:** **Yes**
@@ -69,9 +74,9 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
    - **Switch to HTTPS Access for Web GUI:** **Yes** (for web GUI)
   - After completion, note the WAN IP
 
-2. Set Interface 1 to LAN (eg. INTERNAL)
+2. Set Interface 1 to LAN (eg. MGMT)
   - From the console menu, select **Option 2 – Set Interface IP address**.
-  - Choose the **LAN** interface. (eg. em1)
+  - Choose the **LAN** interface. (eg. hn1)
   - When prompted:
    - **Configure ipv4 address LAN interface via DHCP:** **No**
    - **Enter the new LAN ipv4 address:** 10.0.10.1
@@ -82,9 +87,9 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
    - **Restore Web GUI access Defaults:** **NO**
   - After completion, note the LAN IP
 
-3.  Set Interface 2 to LAN (eg. MGMT)
+3.  Set Interface 2 to LAN (eg. INTERNAL_VLANS)
   - From the console menu, select **Option 2 – Set Interface IP address**.
-  - Choose the **LAN** interface. (eg. em1)
+  - Choose the **LAN** interface. (eg. hn2)
   - When prompted:
    - **Configure ipv4 address LAN interface via DHCP:** **No**
    - **Enter the new LAN ipv4 address:** 10.0.20.1
@@ -97,7 +102,7 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
 
 4.  Set Interface 3 to LAN (eg. DMZ)
   - From the console menu, select **Option 2 – Set Interface IP address**.
-  - Choose the **LAN** interface. (eg. em1)
+  - Choose the **LAN** interface. (eg. hn3)
   - When prompted:
    - **Configure ipv4 address LAN interface via DHCP:** **No**
    - **Enter the new LAN ipv4 address:** 10.0.30.1
@@ -108,12 +113,23 @@ It includes setting up interfaces, assigning static IPs, enabling VLANs, configu
    - **Restore Web GUI access Defaults:** **NO**
   - After completion, note the OPT2 IP
 
+4.  Set Interface 3 to LAN (eg. GUEST)
+  - From the console menu, select **Option 2 – Set Interface IP address**.
+  - Choose the **LAN** interface. (eg. hn4)
+  - When prompted:
+   - **Configure ipv4 address LAN interface via DHCP:** **No**
+   - **Enter the new LAN ipv4 address:** 10.0.30.1
+   - **Enter the new LAN ipv4 subnet bit count:** 24
+   - **Enter Upsream Gateway:** **no** (empty field)
+   - **Configure ipv6 address LAN interface via WAN tracking:** **yes**
+   - **Do you want to enable DHCP server on LAN:** **no**
+   - **Restore Web GUI access Defaults:** **NO**
+  - After completion, note the OPT3 IP
 
 ## Validation
 
 1. From LAN VM, open Powershell as administrator
 
 2. Run:
-  - `ping 10.10.10.1` → should succeed.
+  - `ping 10.0.10.11` → should succeed.
   - `ping 8.8.8.8` → should succeed (internet access).
-  - `ping google.com` → should succeed (DNS resolution).
