@@ -7,29 +7,30 @@ It includes assigning static ipv4 address, DNS server and backup, and enabling D
 ## Prerequisites
 
 - OPNsense VM installed and booted
-- VirtualBox networks created:
-  - **WAN adapter:** NAT or Bridged
-  - **LAN adapter:** Internal Network (e.g. `INTERNAL`)
-  - Optional: Additional adapters for DMZ, MGTM, etc.
+- Hyper V networks created:
+  - `WAN_Switch`
+  - `MGMT_Switch`
+  - `INTERNAL_Switch`
+  - `GUEST_Switch`
+  - Optional: Additional adapters for additional subnets. 
 - Network plan documented (e.g., `ip-plan.md`)
 
 ---
 ### Related Documents
- -
+ - 
 ---
 ## Procedure
 
 ### 1. Configure Network adapter
 
-1. In powered down state navigate to DC1 settings
+1. In powered down state navigate to Windows Server Machine settings
 
-2. In Network settings 
-  - Enable network adapter
-  - **Attached to:** Interal Network
-  - **Name:** INTERNAL
+2. In Hardware settings 
+  - Choose network adapter
+  - Choose appropriate Virual Switch according to ip-plan.md (eg. 'MGMT_Switch', 'INTERNAL_VLANS_Switch', 'DMZ_Switch', 'GUEST_Switch'
   - Click okay
 
-3. Boot DC1 VM
+3. Boot  VM
 
 4. Log into Powershell and verify adapter
   - Right click Windows icon and select 'Terminal (Admin)'
@@ -47,19 +48,15 @@ It includes assigning static ipv4 address, DNS server and backup, and enabling D
 7. Verify Connection to Firewall and Gateway
    - In terminal 'ping 10.0.10.1' (Firewall)
     - **Expected Result:** sucessful ping
-   - In terminal 'ping 8.8.8.8' (External ipv4 'eg. google.com'
+   - In terminal 'ping 8.8.8.8' (External ipv4 'eg. google.com')
     - *Expected Result:** sucessful ping
 
 ### 2. Configure DNS
 
-1. In Terminal, enter 'Set-DnsClientServerAddress -InterfaceIndex "Ethernet -ServerAddresses ("10.0.10.2","10.0.10.1")
+1. In Terminal, enter 'Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses ("10.0.10.2","10.0.10.1")'
 
 2. Verify DNS
   -In terminal,'Get-DnsClientServerAddress'
-   - **Expected Result:** DNS servers (10.0.10.2, 10.0.10.1)
+   - **Expected Result:** DNS servers (10.0.10.11, 10.0.20.12)
   - Ping 'google.com'
    - **Expected Result:** sucessful ping
-
-### 3. Enable DHCP
-
-1. In terminal, 'Set-NetIPInterface -InterfaceAlias "Ethernet" -Dhcp Enabled
